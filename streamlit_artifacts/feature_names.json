@@ -1,0 +1,13 @@
+[
+  "suspicious_count",
+  "urgency_count",
+  "financial_count",
+  "medical_count",
+  "suspicious_score",
+  "urgency_score",
+  "financial_score",
+  "medical_score",
+  "word_count",
+  "char_count",
+  "unique_word_ratio"
+]

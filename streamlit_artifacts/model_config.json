@@ -1,0 +1,8 @@
+{
+  "num_hand_features": 11,
+  "num_labels": 2,
+  "max_len": 256,
+  "bert_model": "bert-base-uncased",
+  "dropout_p": 0.3,
+  "threshold": 0.3
+}
