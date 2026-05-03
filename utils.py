@@ -198,23 +198,45 @@ def load_model(artifact_dir: str = "streamlit_artifacts"):
             )
         
         # Download from Hugging Face
-        artifact_dir = Path(
-            snapshot_download(
-                repo_id=HF_MODEL_REPO,
-                cache_dir=HF_CACHE_DIR,
-                repo_type="model",
+        try:
+            print(f"📥 Downloading models from {HF_MODEL_REPO}...")
+            artifact_dir = Path(
+                snapshot_download(
+                    repo_id=HF_MODEL_REPO,
+                    cache_dir=HF_CACHE_DIR,
+                    repo_type="model",
+                )
             )
-        )
+            print(f"✅ Models downloaded to: {artifact_dir}")
+            print(f"📁 Contents: {list(artifact_dir.glob('**/*'))[:10]}")
+        except Exception as e:
+            raise RuntimeError(
+                f"❌ Failed to download models from HuggingFace:\n"
+                f"Repository: {HF_MODEL_REPO}\n"
+                f"Error: {str(e)}\n"
+                f"Make sure:\n"
+                f"1. HF_MODEL_REPO is correct\n"
+                f"2. Files are uploaded to that repository\n"
+                f"3. Repository is public or you have access"
+            ) from e
 
     # Load model as before
-    with open(artifact_dir / "model_config.json", "r", encoding="utf-8") as f:
-        config = json.load(f)
+    try:
+        with open(artifact_dir / "model_config.json", "r", encoding="utf-8") as f:
+            config = json.load(f)
 
-    with open(artifact_dir / "keyword_dicts.json", "r", encoding="utf-8") as f:
-        KEYWORD_DICTS = json.load(f)
+        with open(artifact_dir / "keyword_dicts.json", "r", encoding="utf-8") as f:
+            KEYWORD_DICTS = json.load(f)
 
-    with open(artifact_dir / "feature_names.json", "r", encoding="utf-8") as f:
-        FEATURE_ORDER = json.load(f)
+        with open(artifact_dir / "feature_names.json", "r", encoding="utf-8") as f:
+            FEATURE_ORDER = json.load(f)
+    except FileNotFoundError as e:
+        raise FileNotFoundError(
+            f"❌ Cannot find required file: {e.filename}\n"
+            f"Expected directory: {artifact_dir}\n"
+            f"Files found: {list(artifact_dir.glob('*'))}\n"
+            f"\nMake sure all model files are uploaded to: {HF_MODEL_REPO}"
+        ) from e
 
     model = HybridPhishingDetector(
         num_hand_features=config["num_hand_features"],
