@@ -24,9 +24,10 @@ import torch.nn as nn
 from transformers import BertModel, BertTokenizer
 
 try:
-    from huggingface_hub import snapshot_download
+    from huggingface_hub import snapshot_download, hf_hub_download
 except ImportError:
     snapshot_download = None
+    hf_hub_download = None
 
 try:
     from feature_engineering import url_feature_extractor
@@ -197,27 +198,44 @@ def load_model(artifact_dir: str = "streamlit_artifacts"):
                 "Run: pip install huggingface_hub"
             )
         
-        # Download from Hugging Face
+        # Download from Hugging Face using snapshot_download
         try:
             print(f"📥 Downloading models from {HF_MODEL_REPO}...")
-            artifact_dir = Path(
-                snapshot_download(
-                    repo_id=HF_MODEL_REPO,
-                    cache_dir=HF_CACHE_DIR,
-                    repo_type="model",
-                )
+            print(f"   Cache dir: {HF_CACHE_DIR}")
+            
+            # snapshot_download downloads the entire repository structure
+            cache_dir = snapshot_download(
+                repo_id=HF_MODEL_REPO,
+                cache_dir=HF_CACHE_DIR,
+                repo_type="model",
             )
-            print(f"✅ Models downloaded to: {artifact_dir}")
-            print(f"📁 Contents: {list(artifact_dir.glob('**/*'))[:10]}")
+            
+            artifact_dir = Path(cache_dir)
+            print(f"✅ Models downloaded successfully!")
+            print(f"   Location: {artifact_dir}")
+            
+            # List what we got
+            all_files = list(artifact_dir.glob('**/*'))
+            print(f"   Found {len(all_files)} files/folders")
+            for f in sorted(all_files)[:20]:
+                if f.is_file():
+                    size_mb = f.stat().st_size / (1024*1024)
+                    print(f"   - {f.relative_to(artifact_dir)} ({size_mb:.1f} MB)")
+                else:
+                    print(f"   - {f.relative_to(artifact_dir)}/")
+                    
         except Exception as e:
+            print(f"❌ Download failed: {e}")
+            import traceback
+            traceback.print_exc()
             raise RuntimeError(
                 f"❌ Failed to download models from HuggingFace:\n"
                 f"Repository: {HF_MODEL_REPO}\n"
                 f"Error: {str(e)}\n"
                 f"Make sure:\n"
-                f"1. HF_MODEL_REPO is correct\n"
+                f"1. HF_MODEL_REPO is correct (current: {HF_MODEL_REPO})\n"
                 f"2. Files are uploaded to that repository\n"
-                f"3. Repository is public or you have access"
+                f"3. Repository is public"
             ) from e
 
     # Load model as before
