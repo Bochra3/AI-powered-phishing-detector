@@ -9,26 +9,4 @@ module that analyzes the structural signals of embedded links in the original (u
 text. Both paths produce an independent probability, and the final verdict is determined by
 taking the higher of the two scores.
 Predictions are served through an interactive Streamlit web application. No training code is
-exposed at inference tim
-- Large PDFs and documentation
-
----
-
-## Future Enhancements
-
-- [ ] Add A/B testing capabilities
-- [ ] Implement batch email analysis
-- [ ] Add admin dashboard for model performance monitoring
-- [ ] Support multiple languages
-
----
-
-## License
-
-[Your License Here]
-
----
-
-## Contact
-
-For questions or issues, open a GitHub issue or contact the maintainer.
+exposed at inference time
