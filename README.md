@@ -4,8 +4,7 @@
 
 > A two-path phishing classifier that combines a fine-tuned **BERT** model with **handcrafted linguistic features** and a transparent **rule-based URL scorer**, served through an interactive **Streamlit** app.
 
-[![Model on Hugging Face]([https://img.shields.io/badge/🤗%20Model-Hugging%20Face-FFD21E)](https://huggingface.co/<your-username>/<your-model-repo>](https://huggingface.co/hiiikaaaa/phishing-detector-models))
-![Python](https://img.shields.io/badge/Python-3.10+-3776AB?logo=python&logoColor=white)
+[![Model on Hugging Face](https://img.shields.io/badge/🤗%20Model-Hugging%20Face-FFD21E)](https://huggingface.co/hiiikaaaa/phishing-detector-models)
 
 **Course:** Information Security and Assurance, Tunis Business School, May 2026
 
