@@ -1,10 +1,11 @@
-[![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://ai-powered-phishing-detector.streamlit.app/)
+
 
 # 🛡️ AI-Powered Phishing Email Detector
 
 > A two-path phishing classifier that combines a fine-tuned **BERT** model with **handcrafted linguistic features** and a transparent **rule-based URL scorer**, served through an interactive **Streamlit** app.
 
 [![Model on Hugging Face](https://img.shields.io/badge/🤗%20Model-Hugging%20Face-FFD21E)](https://huggingface.co/hiiikaaaa/phishing-detector-models)
+[![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://ai-powered-phishing-detector.streamlit.app/)
 
 **Course:** Information Security and Assurance, Tunis Business School, May 2026
 
